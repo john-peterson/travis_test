@@ -1,0 +1,88 @@
+language:
+# - objective-c
+- cpp
+# - java
+
+# compiler:
+# - gcc
+
+env:
+ # global:
+ # - G=1
+ # matrix:
+- lib=1 debug=true
+# - lib=2 debug=false
+
+# env:
+# - A=1
+# - A=2
+
+install:
+- shopt -s expand_aliases
+- alias sudo="sudo "
+- alias make=colormake
+# - sudo update-alternatives --display java
+
+- sudo apt-get -qq update
+- sudo apt-get -qq install ack-grep colormake; fi
+
+# - if $debug; then echo "debug=true"; else echo "debug=false"; fi
+
+# multi line
+# - |
+ # if $debug; then
+  # echo "debug=true"
+ # else
+  # echo "debug=false"
+ # fi
+
+# - apt-cache search mingw
+# - sudo apt-get -qq install qconf colormake
+# - if $debug; then sudo apt-get -qq install qconf colormake; fi
+# - if [[ "$BUILD" == "1" ]]; then mkdir -p test && (mkdir -p test; cd test) && (cd mkdir -p test; cd test) && cd fail && (cd mkdir -p test; cd test); fi
+# - if [[ true ]]; then sudo apt-get -qq build-dep libtorrent-rasterbar-dev && git clone git://github.com/mirror/libtorrent.git && (alias; cd libtorrent && ./autotool.sh && ./configure && sudo make install); fi
+
+# - sudo apt-get install binutils-mingw-w64
+# - sudo apt-get install binutils-mingw-w64-i686
+
+# - uname
+# - brew install coreutils
+# - PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+# - system_profiler
+# - nproc
+# - lscpu
+# - cat /proc/cpuinfo
+# - sudo apt-get -qq update; sudo apt-get -qq install amor
+
+- export MAKEFLAGS="-j $((`nproc` / 2))"
+
+script:
+# - echo settings
+# - echo $G
+# - echo $lib
+# - echo $debug
+
+# default programs
+# - echo test | ack-grep test
+
+# - shopt -s expand_aliases
+# - alias make=colormake
+# - alias not_found=make
+# - alias qconf=qt-qconf
+# - alias
+
+# - (not_found)
+
+# - not_found
+# - qconf
+# - not_found --help
+
+# - function build() { alias; not_found; }
+# - function build() { ./autogen.sh && ./configure && make; }
+# - build
+- ./autogen.sh && ./configure && make
+
+# exit code
+make 2>&1 | ack-grep --passthru error
+echo "${PIPESTATUS[0]} ${PIPESTATUS[1]}"
+(exit ${PIPESTATUS[0]})
